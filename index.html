@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE Stack Example</title>
+</head>
+<body>
+    <h1>Messages</h1>
+    <ul id="messages"></ul>
+
+    <script>
+        // Use EventSource to listen to SSE events from the server
+        const eventSource = new EventSource('http://localhost:3000/sse');
+
+        eventSource.onmessage = function(event) {
+            const message = JSON.parse(event.data);
+            const messageList = document.getElementById('messages');
+            const newItem = document.createElement('li');
+            newItem.textContent = message.text;
+            messageList.appendChild(newItem);
+        };
+
+        eventSource.onerror = function(event) {
+            console.error('EventSource failed:', event);
+        };
+    </script>
+</body>
+</html>
